@@ -1,35 +1,44 @@
 import { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { fetchCurrentTrack } from "../lib/statsfm.js"
+import { fetchListening } from "../lib/statsfm.js"
 
 const POLL_INTERVAL_MS = 60000
 
-// Live "now playing" from Cédric's Spotify (via stats.fm, browser-direct).
-// Renders nothing until something is actually playing, so it never shows a
-// broken or empty state — the embedded player below stays the fallback.
+// ms → "m:ss" (track length, as Spotify shows it).
+const formatDuration = (ms) => {
+  if (typeof ms !== "number") return ""
+  const totalSeconds = Math.round(ms / 1000)
+  const minutes = Math.floor(totalSeconds / 60)
+  const seconds = totalSeconds % 60
+  return `${minutes}:${String(seconds).padStart(2, "0")}`
+}
+
+// Live "now playing" from Cédric's Spotify (via stats.fm, browser-direct). Shows
+// a status (listening now vs idle) and his last few tracks. When live, the first
+// row is the current track with an animated equalizer.
 const NowPlaying = () => {
-  const [currentTrack, setCurrentTrack] = useState(null)
+  const [state, setState] = useState({ isLive: false, tracks: [] })
 
   useEffect(() => {
     let isActive = true
     let pollId = null
 
-    const refreshCurrentTrack = async () => {
+    const refresh = async () => {
       try {
-        const track = await fetchCurrentTrack()
-        if (isActive) setCurrentTrack(track)
+        const next = await fetchListening()
+        if (isActive) setState(next)
       } catch {
         // Background poll: a network hiccup must never break the page, so we
-        // intentionally keep the last known track rather than propagating.
+        // intentionally keep the last known state rather than propagating.
       }
     }
 
-    // Only poll while the tab is visible — a backgrounded/forgotten tab must not
-    // keep hitting the Edge Function. Resume (and refresh once) when it returns.
+    // Only poll while the tab is visible — a backgrounded tab must not keep
+    // hitting the API. Resume (and refresh once) when it returns.
     const startPolling = () => {
       if (pollId) return
-      refreshCurrentTrack()
-      pollId = setInterval(refreshCurrentTrack, POLL_INTERVAL_MS)
+      refresh()
+      pollId = setInterval(refresh, POLL_INTERVAL_MS)
     }
     const stopPolling = () => {
       if (pollId) {
@@ -49,33 +58,50 @@ const NowPlaying = () => {
     }
   }, [])
 
+  const { isLive, tracks } = state
+  if (!tracks.length) return null
+
   return (
-    <AnimatePresence>
-      {currentTrack && (
-        <motion.a
-          className="liveplaying"
-          href={currentTrack.songUrl || undefined}
-          target="_blank"
-          rel="noopener noreferrer"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          transition={{ duration: 0.5 }}
-        >
-          {currentTrack.albumImageUrl && <img src={currentTrack.albumImageUrl} alt="" className="lp-art" />}
-          <span className="lp-text">
-            <span className="lp-eq" aria-hidden="true">
-              <i />
-              <i />
-              <i />
-            </span>
-            <span className="lp-now">Live on Spotify now</span>
-            <span className="lp-title">{currentTrack.title}</span>
-            <span className="lp-artist">{currentTrack.artist}</span>
+    <div className="np-live">
+      <p className={`np-status${isLive ? " on" : ""}`}>
+        {isLive ? (
+          <span className="lp-eq" aria-hidden="true">
+            <i />
+            <i />
+            <i />
           </span>
-        </motion.a>
-      )}
-    </AnimatePresence>
+        ) : (
+          <span className="np-dot" aria-hidden="true" />
+        )}
+        {isLive ? "Listening right now" : "Not listening right now"}
+      </p>
+
+      <ul className="np-list">
+        <AnimatePresence initial={false}>
+          {tracks.map((track, index) => (
+            <motion.li
+              key={`${track.spotifyId || track.title}-${index}`}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35, delay: index * 0.05 }}
+            >
+              <a className="np-row" href={track.songUrl || undefined} target="_blank" rel="noopener noreferrer">
+                {track.albumImageUrl && <img src={track.albumImageUrl} alt="" className="np-art" />}
+                <span className="np-meta">
+                  <span className="np-title">{track.title}</span>
+                  <span className="np-sub">
+                    <span className="np-artist">{track.artist}</span>
+                    {track.durationMs != null && <span className="np-duration">{formatDuration(track.durationMs)}</span>}
+                  </span>
+                </span>
+                {isLive && index === 0 && <span className="np-tag">now</span>}
+              </a>
+            </motion.li>
+          ))}
+        </AnimatePresence>
+      </ul>
+    </div>
   )
 }
 

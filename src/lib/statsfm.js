@@ -6,18 +6,20 @@
 const BASE_URL = "https://api.stats.fm/api/v1"
 const STATSFM_USER = import.meta.env.VITE_STATSFM_USER || "cedric.gautier"
 
-const getUserJson = async (path) => {
-  const response = await fetch(`${BASE_URL}/users/${STATSFM_USER}${path}`)
+const getJson = async (path) => {
+  const response = await fetch(`${BASE_URL}${path}`)
   if (!response.ok) throw new Error(`stats.fm ${path} failed: ${response.status}`)
   return response.json()
 }
 
+const getUserJson = (path) => getJson(`/users/${STATSFM_USER}${path}`)
+
 // Defensive: stats.fm is third-party data. A Spotify id is always alphanumeric,
-// so reject anything else rather than interpolate it into a URL. The scheme is
-// hard-coded https, so a malicious scheme can never reach the href.
-const toSpotifyTrackUrl = (track) => {
+// so reject anything else rather than interpolate it into a URL/embed. Returns
+// undefined for anything that isn't a clean id.
+const toSpotifyTrackId = (track) => {
   const spotifyId = track?.externalIds?.spotify?.[0]
-  return typeof spotifyId === "string" && /^[A-Za-z0-9]+$/.test(spotifyId) ? `https://open.spotify.com/track/${spotifyId}` : undefined
+  return typeof spotifyId === "string" && /^[A-Za-z0-9]+$/.test(spotifyId) ? spotifyId : undefined
 }
 
 // Only trust https image URLs (album art is rendered as <img src>).
@@ -26,20 +28,30 @@ const toHttpsImage = (url) => (typeof url === "string" && url.startsWith("https:
 const toTrack = (item) => {
   const track = item?.track
   if (!track) return null
+  const spotifyId = toSpotifyTrackId(track)
   return {
     isPlaying: item.isPlaying === true,
     title: track.name,
     artist: (track.artists ?? []).map((artist) => artist.name).join(", "),
+    durationMs: typeof track.durationMs === "number" ? track.durationMs : undefined,
     albumImageUrl: toHttpsImage(track.albums?.[0]?.image),
-    songUrl: toSpotifyTrackUrl(track),
+    spotifyId,
+    songUrl: spotifyId ? `https://open.spotify.com/track/${spotifyId}` : undefined,
   }
 }
 
-// What Cédric is playing right now — or null if nothing is currently playing.
-export const fetchCurrentTrack = async () => {
-  const data = await getUserJson("/streams/current")
-  const currentTrack = toTrack(data.item)
-  return currentTrack && currentTrack.isPlaying ? currentTrack : null
+const RECENT_LIMIT = 3
+
+// Cédric's listening state: whether something is playing right now, plus his
+// last few tracks. When live, the current track leads the list (de-duped); when
+// idle, it's just the recent history — so the widget always shows real data.
+export const fetchListening = async () => {
+  const current = toTrack((await getUserJson("/streams/current")).item)
+  const recent = await getUserJson(`/streams/recent?limit=${RECENT_LIMIT}`)
+  const recentTracks = (recent.items ?? []).map(toTrack).filter(Boolean)
+  const isLive = current?.isPlaying === true
+  const ordered = isLive ? [current, ...recentTracks.filter((track) => track.spotifyId !== current.spotifyId)] : recentTracks
+  return { isLive, tracks: ordered.slice(0, RECENT_LIMIT) }
 }
 
 // Top artist names for a range: "weeks" | "months" | "lifetime".

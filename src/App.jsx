@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence, useScroll } from "framer-motion"
 import Vinyl3D from "./components/Vinyl3D.jsx"
 import Intro from "./components/Intro.jsx"
@@ -6,6 +6,8 @@ import { Obj, BflyMark } from "./components/Scatter.jsx"
 import NowPlaying from "./components/NowPlaying.jsx"
 import Playlists from "./components/Playlists.jsx"
 import Timeline from "./components/Timeline.jsx"
+import Passions from "./components/Passions.jsx"
+import RisingBubbles from "./components/RisingBubbles.jsx"
 import { useTopArtists } from "./hooks/useTopArtists.js"
 
 const reveal = {
@@ -18,19 +20,23 @@ const CREDITS = [
   [
     "A1",
     "Identity & Access",
-    "Designing and automating who can reach what — SSO, least-privilege, lifecycle and access reviews — so access stays correct without anyone thinking about it.",
+    "Designing and automating who can reach what — SSO and SCIM lifecycles, SAML/OIDC/OAuth2, least-privilege and access reviews — so access stays correct without anyone thinking about it.",
   ],
   [
     "A2",
     "Security Automation",
-    "Turning manual security toil into code. I treat repetitive work as a bug and build the tooling that makes the safe path the default path.",
+    "Turning manual security toil into code — TypeScript, Python, Terraform. I treat repetitive work as a bug and build the tooling that makes the safe path the default path.",
   ],
   [
     "A3",
     "Software & Tooling",
     "A developer first. I build internal tools in TypeScript that other people actually want to use — small, sharp, and made to last.",
   ],
-  ["A4", "AI Security", "Guardrails for how a company builds and uses AI, plus the awareness work to bring everyone else along with it."],
+  [
+    "A4",
+    "AI Security",
+    "Guardrails for how a company builds and uses AI — governance for LLMs, AI agents and MCP integrations, plus the awareness work to bring everyone else along with it.",
+  ],
   ["A5", "Detection & Response", "Making threats visible and incidents fast — clean signal, honest logs, and runbooks that hold up when it counts."],
   ["A6", "Internal Security", "Hardening the everyday — workspace, devices, the human layer — so the foundation a company stands on is quietly solid."],
 ]
@@ -67,9 +73,13 @@ const MILESTONES = [
     blurb:
       "Walked into an early-stage Qonto at eighteen and helped build the workplace itself — identity, devices, the day-one experience. The job that turned me into a builder.",
     highlights: [
-      "Automated on/offboarding so systems were ready for 20–40 new hires every two weeks",
-      "Rolled out MDM baselines, SSO and group-based access",
-      "Wrote the self-service docs and incident playbooks — and mentored the next joiners",
+      "Automated on/offboarding into a scalable, hands-off flow — systems ready for 20–40 new hires every two weeks",
+      "Ran joiner/mover/leaver and day-one readiness; scripted workflows and runbooks cut provisioning lead time and errors",
+      "Administered SSO and group-based access across core apps — tightening least-privilege with periodic reviews",
+      "Rolled out MDM baseline configurations, raising endpoint compliance and reducing drift",
+      "Built self-service docs (how-tos, FAQs) that cut ticket volume and MTTR on recurring issues",
+      "Wrote incident-response playbooks for workspace tools — triage, comms, RCA — for faster, more consistent recovery",
+      "Became the go-to for IT Ops: led onboarding sessions, built training, and mentored new joiners to autonomy",
     ],
     education: [
       { school: "Lycée Richelieu", degree: "Bac STI2D · SIN", years: "2018 — 2020" },
@@ -89,10 +99,41 @@ const MILESTONES = [
     title: "Stepped into security",
     blurb:
       "Moved from IT into security engineering — and found the craft I wanted to go deep on. Four years strengthening the posture across cloud, access, the SDLC, and endpoints.",
-    highlights: [
-      "Governed access for 1,000+ suppliers via OneLogin SSO; SAML/SCIM into internal tools",
-      "Secured CI/CD on GitHub & GitLab and migrated VPNs to a ZTNA architecture",
-      "Built certificate-lifecycle tooling, cleaned up log hygiene, audited SaaS exposure",
+    highlightGroups: [
+      {
+        group: "IAM",
+        items: [
+          "Automated the user lifecycle (on/offboarding) — cutting provisioning lead time and configuration drift",
+          "Built an in-house IAM platform governing 1,000+ external users (auditors, external support/ops providers) — a no-code internal front end backed by a custom IdP-linked job applying RBAC to provision the right access across every app",
+          "Wired SAML/SCIM into internal tools to centralize access through SSO",
+        ],
+      },
+      {
+        group: "Endpoint security",
+        items: [
+          "Migrated traditional VPNs to a ZTNA architecture",
+          "Ran endpoint detection & response (EDR) across the fleet — alerting, triage and remediation",
+          "Raised endpoint compliance with refreshed baselines aligned to corporate standards and CIS Benchmarks",
+        ],
+      },
+      {
+        group: "Platform security",
+        items: [
+          "Secured CI/CD across our source-control platforms with policy checks, branch protection and safer release gates",
+          "Built an internal tool tracking the lifecycle of every application security certificate",
+          "Hardened observability hygiene — detecting and remediating sensitive fields in logs",
+          "Migrated internal security-app alerting to a centralized error-tracking platform for faster, more consistent response",
+          "Added a config-validation test suite to the SDLC for safer log-pipeline deployments",
+          "Helped migrate Kubernetes apps onto Helm charts",
+        ],
+      },
+      {
+        group: "Security compliance",
+        items: [
+          "Audited sensitive-content exposure across SaaS, internal AI and collaboration tools and tightened controls",
+          "Automated access-management security controls to improve detection and speed up investigations",
+        ],
+      },
     ],
     tags: ["Go", "Terraform", "Python", "AWS", "Kubernetes"],
     education: [
@@ -113,11 +154,33 @@ const MILESTONES = [
     title: "Building from zero",
     blurb:
       "Joined Tomorro to found the IT & Security function — the team, the systems, the standards. The biggest step yet: this time the whole thing is mine to build.",
-    highlights: [
-      "Stood up the department from zero — helpdesk, runbooks, a repeatable delivery cadence",
-      "IAM as code, and device standards that keep the fleet compliant by default",
-      "Drove SOC 2 Type II and ISO 27001, with guardrails for safe internal AI",
+    highlightGroups: [
+      {
+        group: "Foundations",
+        items: [
+          "Launched the IT/Security function from zero — an internal workspace, runbooks and a how-to knowledge base",
+          "Stood up a ticketing culture for IT support, with standard intake and tracking",
+          "Reworked delivery into a Scrumban cadence",
+        ],
+      },
+      {
+        group: "Security automation & tooling",
+        items: [
+          "Built the access-control checks that verify access across the most critical company-wide tools, and owned the access-review process that keeps us compliant with our security certifications",
+          "Automated the employee lifecycle — an HRIS-driven sync to a single source-of-truth employee database, tracking joiner/mover/leaver transitions and field changes",
+        ],
+      },
+      {
+        group: "Workplace & fleet",
+        items: [
+          "Standardized the laptop fleet — a baseline configuration shipped and enforced through MDM",
+          "Ran endpoint detection & response (EDR) across the macOS-first fleet",
+          "Automated device inventory — syncing the device-enrollment source into our asset database with warranty and assignment data",
+          "Set up a vendor partnership for IT-equipment purchasing",
+        ],
+      },
     ],
+    tags: ["TypeScript", "Python", "Terraform", "Google Workspace", "MDM/EDR"],
     education: [{ school: "Sup de Vinci", degree: "MSc · final year, graduating", years: "→ Oct 2026" }],
     // Real, from stats.fm — `soundtrack` = last ~6 months, `constants` = all-time.
     soundtrack: ["Fred again..", "Chance Peña", "Harry Styles", "nimino", "ODESZA"],
@@ -138,18 +201,30 @@ const TRACKS = [
 ]
 
 const REST = [
-  ["In motion", ["The mountains", "Trail days", "Climbing", "Running", "Surf", "Skate & bike", "Snow", "Survival camping"]],
+  ["In motion", ["The mountains", "Trail days", "Climbing", "Running", "Surf", "Skate & bike", "Snow", "Lake days", "The next trip"]],
   [
     "At the table",
-    ["Wine, always", "Cocktails I make", "Mixology", "Apéro · gin · rhum", "Coffee, properly", "Good bread & pastries", "Japanese & Korean", "Filipino adobo"],
+    [
+      "Wine, always",
+      "Cocktails & mixology",
+      "Apéro · gin · rhum",
+      "Coffee, properly",
+      "Good bread & pastries",
+      "Japanese & Korean",
+      "Filipino adobo",
+      "Wine bars",
+      "Dinners with friends & family",
+    ],
   ],
-  ["On repeat", ["Phil Odd", "Techno", "ABBA, unironically", "DJ sets", "Live shows", "The next playlist"]],
-  ["Always dreaming of", ["Côte d’Azur", "Marbella", "Greece", "A small yacht", "City life & beach life", "The next trip"]],
+  [
+    "Tuned in",
+    ["Phil Odd", "Techno", "ABBA, unironically", "DJ sets", "Live shows", "The next playlist", "Discovering new tech", "Markets & IPOs", "Finance & investing"],
+  ],
 ]
 
 const TICKER = ["Build things that last", "Plan first", "Problem-oriented", "Security by design", "Stay grounded", "Curate the sound", "Keep learning"]
 
-// Spotify (static embeds, no backend — live data comes from stats.fm).
+// Spotify (no backend — live listening data comes from stats.fm).
 // SPOTIFY_PROFILE: the full profile URL (open.spotify.com/user/<id>).
 // PLAYLISTS[].id: the part after /playlist/ in a playlist's share URL.
 // Empty values render nothing (no broken players / dead links).
@@ -274,25 +349,25 @@ export default function App() {
         <Obj icon="pick" style={{ bottom: "6%", left: "2%" }} rot={8} delay={1.3} />
         <div className="wrap">
           <div className="thesis-grid">
-            <div className="thesis-copy">
-              <motion.p {...reveal} transition={{ duration: 0.8 }}>
-                I’m a builder at heart — happiest with a project in progress, music in my ears, and a mountain on the horizon. I love making
-                things and improving them so they last — durable, intentional, and worth keeping.
-              </motion.p>
-              <motion.p className="sig" {...reveal} transition={{ duration: 0.8, delay: 0.1 }}>
-                — Paris · French &amp; Filipino · always mid-project
-              </motion.p>
-            </div>
             <motion.figure className="thesis-photo" {...reveal} transition={{ duration: 0.8, delay: 0.15 }}>
               <img
-                src={`${import.meta.env.BASE_URL}cedric-coast.jpg`}
-                alt="Cédric on a coastal walk, green mountains rising behind — a mountain on the horizon."
+                src={`${import.meta.env.BASE_URL}me-and-the-mountain.jpeg`}
+                alt="Cédric outdoors with green mountains rising behind — a mountain on the horizon."
                 loading="lazy"
                 onError={(event) => {
                   event.currentTarget.parentElement.style.display = "none"
                 }}
               />
             </motion.figure>
+            <div className="thesis-copy">
+              <motion.p {...reveal} transition={{ duration: 0.8 }}>
+                I’m a builder at heart — happiest with a project in progress, music in my ears, and a mountain on the horizon. I love making things and
+                improving them so they last — durable, intentional, and worth keeping.
+              </motion.p>
+              <motion.p className="sig" {...reveal} transition={{ duration: 0.8, delay: 0.1 }}>
+                — Paris · French &amp; Filipino · always mid-project
+              </motion.p>
+            </div>
           </div>
         </div>
       </section>
@@ -356,6 +431,7 @@ export default function App() {
 
       {/* SIDE B */}
       <section className="pad dark">
+        <RisingBubbles />
         <BflyMark className="bfly-watermark" style={{ top: "4%", right: "-6%", width: "min(540px,58vw)", color: "var(--amber)", opacity: 0.08 }} />
         <Obj icon="butterfly" am style={{ top: "12%", left: "5%" }} rot={8} delay={0.5} />
         <Obj icon="sun" style={{ top: "6%", right: "5%" }} rot={-6} delay={0.3} />
@@ -375,6 +451,16 @@ export default function App() {
           <div className="music">
             <motion.div {...reveal} transition={{ duration: 0.7 }}>
               <p className="blocklabel">In the studio</p>
+              <figure className="studio-photo">
+                <img
+                  src={`${import.meta.env.BASE_URL}me-dj.jpeg`}
+                  alt="Cédric behind the decks, mid-set."
+                  loading="lazy"
+                  onError={(event) => {
+                    event.currentTarget.parentElement.style.display = "none"
+                  }}
+                />
+              </figure>
               <ul className="gear">
                 <li>
                   <span className="g">Pioneer DDJ-FLX4</span>
@@ -387,23 +473,6 @@ export default function App() {
                 <li>
                   <span className="g">Techno → folk</span>
                   <span className="t">range</span>
-                </li>
-              </ul>
-              <p className="blocklabel" style={{ marginTop: 42 }}>
-                Recently, live
-              </p>
-              <ul className="shows">
-                <li>
-                  <span>01</span>Tom Odell
-                </li>
-                <li>
-                  <span>02</span>Chance Peña
-                </li>
-                <li>
-                  <span>03</span>Miguel
-                </li>
-                <li>
-                  <span>04</span>Sammy Virji
                 </li>
               </ul>
             </motion.div>
@@ -423,9 +492,8 @@ export default function App() {
           <Playlists items={PLAYLISTS} reveal={{ ...reveal, transition: { duration: 0.7 } }} />
 
           <motion.div className="nowspin" {...reveal} transition={{ duration: 0.7 }}>
-            <p className="np">Now spinning — on repeat lately</p>
+            <p className="np">Now spinning — lately</p>
             <NowPlaying />
-            <div id="spotify-embed" />
             {SPOTIFY_PROFILE && (
               <a className="spotify-follow" href={SPOTIFY_PROFILE} target="_blank" rel="noopener noreferrer">
                 Follow on Spotify ↗
@@ -433,18 +501,7 @@ export default function App() {
             )}
           </motion.div>
 
-          <div className="rest">
-            {REST.map(([h, items], i) => (
-              <motion.div key={h} {...reveal} transition={{ duration: 0.6, delay: i * 0.08 }}>
-                <h4>{h}</h4>
-                <ul>
-                  {items.map((it) => (
-                    <li key={it}>{it}</li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
+          <Passions groups={REST} />
 
           <motion.p className="roots" {...reveal} transition={{ duration: 0.8 }}>
             French and Filipino — equally at home over a Paris <b>apéro</b>, a plate of <b>adobo</b>, or behind the bar mixing a <b>cocktail</b> of my own. A
@@ -487,13 +544,13 @@ export default function App() {
             <a href="https://www.linkedin.com/in/cedricgautier" target="_blank" rel="noopener noreferrer">
               LinkedIn
             </a>
-            <a href="https://www.instagram.com/cedricgautier/" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/gautiercedric/" target="_blank" rel="noopener noreferrer">
               Instagram
             </a>
-            <a href="https://linktr.ee/cedricgautier" target="_blank" rel="noopener noreferrer">
+            <a href={SPOTIFY_PROFILE} target="_blank" rel="noopener noreferrer">
               Spotify
             </a>
-            <a href="https://linktr.ee/cedricgautier" target="_blank" rel="noopener noreferrer">
+            <a href="https://github.com/cedricgautier" target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
             <a href="https://www.youtube.com/playlist?list=PL22iEbtV9pVIURt20I1lA5DrZt9bhyKv9" target="_blank" rel="noopener noreferrer">

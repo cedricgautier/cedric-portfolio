@@ -95,6 +95,20 @@ const Timeline = ({ milestones, initialId, live = {} }) => {
               ))}
             </ul>
           )}
+          {selected.highlightGroups && (
+            <div className="tlg-hlgroups">
+              {selected.highlightGroups.map((group) => (
+                <div className="tlg-hlgroup" key={group.group}>
+                  <p className="tlg-hlgroup-label">{group.group}</p>
+                  <ul className="tlg-highlights">
+                    {group.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
           {selected.tags && (
             <div className="tlg-tags">
               {selected.tags.map((tag) => (
