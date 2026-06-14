@@ -174,9 +174,7 @@ const prefersReducedMotion = () => typeof window !== "undefined" && window.match
 export default function App() {
   const [showIntro, setShowIntro] = useState(true)
   const [entering, setEntering] = useState(false)
-  const [musicOn, setMusicOn] = useState(false)
   const [clock, setClock] = useState("--:--")
-  const ctrlRef = useRef(null)
   const { scrollYProgress } = useScroll()
   const topArtists = useTopArtists()
 
@@ -193,7 +191,7 @@ export default function App() {
       return
     }
     const toExit = setTimeout(() => setEntering(true), 2600)
-    const toDone = setTimeout(() => setShowIntro(false), 3600)
+    const toDone = setTimeout(() => setShowIntro(false), 3900)
     return () => {
       clearTimeout(toExit)
       clearTimeout(toDone)
@@ -207,41 +205,11 @@ export default function App() {
     return () => clearInterval(id)
   }, [])
 
-  // Spotify official embed + iframe API (plays "done with you" by Phil Odd)
-  useEffect(() => {
-    window.onSpotifyIframeApiReady = (IFrameAPI) => {
-      const el = document.getElementById("spotify-embed")
-      if (!el) return
-      IFrameAPI.createController(
-        el,
-        {
-          uri: "spotify:track:6QEgYwVFz3lqPZ2Pmtq4y9",
-          width: "100%",
-          height: 152,
-        },
-        (ctrl) => {
-          ctrlRef.current = ctrl
-          ctrl.addListener("playback_update", (e) => {
-            setMusicOn(!e.data.isPaused)
-          })
-        },
-      )
-    }
-  }, [])
-
-  // Let an impatient visitor skip the title sequence (no sound either way).
+  // Let an impatient visitor skip the title sequence.
   const skipIntro = () => {
     if (entering) return
     setEntering(true)
     setTimeout(() => setShowIntro(false), 700)
-  }
-
-  const toggleMusic = () => {
-    try {
-      ctrlRef.current?.togglePlay()
-    } catch {
-      // Spotify controller not ready yet (needs the iframe API + a user gesture).
-    }
   }
 
   return (
@@ -252,10 +220,6 @@ export default function App() {
       <a className="chip-chat" href="https://calendar.app.google/Ms5TShbKUfKJw7yt5" target="_blank" rel="noopener noreferrer">
         Let’s chat
       </a>
-      <button className={"chip-sound" + (musicOn ? "" : " muted")} onClick={toggleMusic} aria-pressed={musicOn} aria-label="Toggle music">
-        ♪ {musicOn ? "Playing" : "Paused"}
-      </button>
-
       <AnimatePresence>{showIntro && <Intro entering={entering} onSkip={skipIntro} />}</AnimatePresence>
 
       {/* HERO */}
@@ -290,7 +254,7 @@ export default function App() {
                 <span className="ln" /> Now playing
               </div>
             </motion.div>
-            <Vinyl3D playing={musicOn} />
+            <Vinyl3D playing />
           </div>
         </div>
       </header>
@@ -309,15 +273,27 @@ export default function App() {
         <Obj icon="coffee" am style={{ top: "8%", right: "6%" }} rot={-10} delay={0.4} />
         <Obj icon="pick" style={{ bottom: "6%", left: "2%" }} rot={8} delay={1.3} />
         <div className="wrap">
-          <motion.p {...reveal} transition={{ duration: 0.8 }}>
-            I’m a builder at heart, and a grounded one — happiest with a project in progress, music in my ears, and a mountain on the horizon. I love making
-            things and making them better, so they last — durable, intentional, and worth keeping. That thread runs through everything I do: engineering,
-            automation, the playlists, a trail at altitude, the woodgrain of a good guitar, an old fashioned at the end of the day. I do it for a living as a
-            security engineer, and for joy as a curator of sound.
-          </motion.p>
-          <motion.p className="sig" {...reveal} transition={{ duration: 0.8, delay: 0.1 }}>
-            — Paris · French &amp; Filipino · always mid-project
-          </motion.p>
+          <div className="thesis-grid">
+            <div className="thesis-copy">
+              <motion.p {...reveal} transition={{ duration: 0.8 }}>
+                I’m a builder at heart — happiest with a project in progress, music in my ears, and a mountain on the horizon. I love making
+                things and improving them so they last — durable, intentional, and worth keeping.
+              </motion.p>
+              <motion.p className="sig" {...reveal} transition={{ duration: 0.8, delay: 0.1 }}>
+                — Paris · French &amp; Filipino · always mid-project
+              </motion.p>
+            </div>
+            <motion.figure className="thesis-photo" {...reveal} transition={{ duration: 0.8, delay: 0.15 }}>
+              <img
+                src={`${import.meta.env.BASE_URL}cedric-coast.jpg`}
+                alt="Cédric on a coastal walk, green mountains rising behind — a mountain on the horizon."
+                loading="lazy"
+                onError={(event) => {
+                  event.currentTarget.parentElement.style.display = "none"
+                }}
+              />
+            </motion.figure>
+          </div>
         </div>
       </section>
 

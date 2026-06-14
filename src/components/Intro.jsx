@@ -25,8 +25,8 @@ export default function Intro({ entering, onSkip }) {
       }}
       aria-label="Skip the intro"
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
+      animate={{ opacity: entering ? 0 : 1 }}
+      transition={{ duration: 0.5, ease: "easeInOut", delay: entering ? 0.7 : 0 }}
     >
       <svg className="intro-contours" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true">
         {INTRO_CONTOURS.map((d, i) => (
