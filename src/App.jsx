@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react"
+import { lazy, Suspense, useEffect, useState } from "react"
 import { motion, AnimatePresence, useScroll } from "framer-motion"
-import Vinyl3D from "./components/Vinyl3D.jsx"
+// Lazy-loaded: three.js is the heaviest dependency, so defer it off the critical
+// path for a faster first paint (better LCP / Core Web Vitals → better SEO).
+const Vinyl3D = lazy(() => import("./components/Vinyl3D.jsx"))
 import Intro from "./components/Intro.jsx"
 import { Obj, BflyMark } from "./components/Scatter.jsx"
 import NowPlaying from "./components/NowPlaying.jsx"
@@ -329,7 +331,9 @@ export default function App() {
                 <span className="ln" /> Now playing
               </div>
             </motion.div>
-            <Vinyl3D playing />
+            <Suspense fallback={null}>
+              <Vinyl3D playing />
+            </Suspense>
           </div>
         </div>
       </header>

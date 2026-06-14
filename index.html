@@ -3,11 +3,68 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cédric Gautier — Security Engineer, Builder, Curator</title>
+
+    <title>Cédric Gautier — Security Engineer, AI-first Builder & Music Curator (Paris)</title>
     <meta
       name="description"
-      content="Cédric Gautier — security engineer and builder in Paris who makes things that last, and curates the soundtrack while doing it."
+      content="Cédric Gautier — Security Engineer in Paris specialising in IAM, security automation and TypeScript tooling. French & Filipino builder, AI-first, and a music curator."
     />
+    <link rel="canonical" href="https://cedricgautier.haluhalo.fr/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="author" content="Cédric Gautier" />
+    <meta name="theme-color" content="#2b5436" />
+
+    <!-- Open Graph (LinkedIn, Slack, iMessage, Facebook) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Cédric Gautier" />
+    <meta property="og:title" content="Cédric Gautier — Security Engineer, AI-first Builder & Music Curator" />
+    <meta
+      property="og:description"
+      content="Security Engineer in Paris — IAM, security automation and TypeScript tooling. French & Filipino builder who makes things that last, and curates the soundtrack."
+    />
+    <meta property="og:url" content="https://cedricgautier.haluhalo.fr/" />
+    <meta property="og:image" content="https://cedricgautier.haluhalo.fr/me-and-the-mountain.jpeg" />
+    <meta property="og:image:alt" content="Cédric Gautier, outdoors with green mountains behind." />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Cédric Gautier — Security Engineer, AI-first Builder & Music Curator" />
+    <meta
+      name="twitter:description"
+      content="Security Engineer in Paris — IAM, security automation and TypeScript tooling. A builder who makes things that last."
+    />
+    <meta name="twitter:image" content="https://cedricgautier.haluhalo.fr/me-and-the-mountain.jpeg" />
+
+    <!-- Structured data: the person entity (helps Google connect the site to the profiles) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Cédric Gautier",
+        "url": "https://cedricgautier.haluhalo.fr/",
+        "image": "https://cedricgautier.haluhalo.fr/me-and-the-mountain.jpeg",
+        "jobTitle": "Security Engineer",
+        "worksFor": { "@type": "Organization", "name": "Tomorro" },
+        "address": { "@type": "PostalAddress", "addressLocality": "Paris", "addressCountry": "FR" },
+        "knowsAbout": [
+          "Identity and Access Management",
+          "Security Automation",
+          "Application Security",
+          "Cloud Security",
+          "AI Security",
+          "TypeScript"
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/cedricgautier",
+          "https://github.com/cedricgautier",
+          "https://www.instagram.com/gautiercedric/",
+          "https://open.spotify.com/user/cedric.gautier",
+          "https://linktr.ee/cedricgautier"
+        ]
+      }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,7 +73,24 @@
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- No-JS / crawler fallback: real content for bots and link previews that don't run JavaScript. -->
+      <noscript>
+        <h1>Cédric Gautier — Security Engineer, AI-first Builder &amp; Music Curator</h1>
+        <p>
+          Paris-based Security Engineer, French &amp; Filipino. Strongest in identity &amp; access management, security
+          automation, and development/tooling (TypeScript). Founding the IT &amp; Security function at Tomorro; previously
+          Security Engineer and IT Technician at Qonto. I build and create things meant to last — secure systems by day,
+          and the soundtrack to go with them.
+        </p>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/cedricgautier">LinkedIn</a></li>
+          <li><a href="https://github.com/cedricgautier">GitHub</a></li>
+          <li><a href="https://www.instagram.com/gautiercedric/">Instagram</a></li>
+          <li><a href="https://open.spotify.com/user/cedric.gautier">Spotify</a></li>
+        </ul>
+      </noscript>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
