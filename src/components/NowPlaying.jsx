@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { fetchCurrentTrack } from "../lib/statsfm.js"
 
 const POLL_INTERVAL_MS = 60000

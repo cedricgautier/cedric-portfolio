@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "lint": "oxlint",
     "format": "oxfmt --config oxfmt.json",
-    "check": "oxlint && vite build"
+    "check": "oxlint && vite build",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@react-three/fiber": "^8.17.10",
@@ -19,6 +20,7 @@
     "three": "^0.160.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@vitejs/plugin-react": "^6.0.2",
     "oxfmt": "^0.46.0",
     "oxlint": "^1.61.0",

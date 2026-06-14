@@ -6,6 +6,11 @@ dist
 .vite
 .playwright-mcp
 
+# Playwright
+test-results
+playwright-report
+/playwright/.cache
+
 # local-only / internal working notes — not for the public repo
 .claude/
 claude.MD
