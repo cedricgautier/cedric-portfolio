@@ -10,6 +10,7 @@ import Playlists from "./components/Playlists.jsx"
 import Timeline from "./components/Timeline.jsx"
 import Passions from "./components/Passions.jsx"
 import RisingBubbles from "./components/RisingBubbles.jsx"
+import ToolboxPills from "./components/ToolboxPills.jsx"
 import { useTopArtists } from "./hooks/useTopArtists.js"
 
 const reveal = {
@@ -27,13 +28,9 @@ const CREDITS = [
   [
     "A2",
     "Security Automation",
-    "Turning manual security toil into code — TypeScript, Python, Terraform. I treat repetitive work as a bug and build the tooling that makes the safe path the default path.",
+    "Turning manual security toil into code. I treat repetitive work as a bug and build the tooling that makes the safe path the default path.",
   ],
-  [
-    "A3",
-    "Software & Tooling",
-    "A developer first. I build internal tools in TypeScript that other people actually want to use — small, sharp, and made to last.",
-  ],
+  ["A3", "Software & Tooling", "A developer first. I build internal tools that other people actually want to use — small, sharp, and made to last."],
   [
     "A4",
     "AI Security",
@@ -56,6 +53,25 @@ const PRINCIPLES = [
   ],
   ["03 · Principles hold", "Standards, by design", "Clear coding standards, security by design, and a clean separation of concerns. Pragmatic, never sloppy."],
   ["04 · Always learning", "Sharpen the craft", "Always on the hunt for a better way to work — practicing and modernizing as I go."],
+]
+
+// The toolbox — kept deliberately separate from the expertise above. The tools
+// serve the problem, they aren't the point: multilingual by habit, mainly Go.
+// `primary` marks the language I reach for first.
+const STACK = [
+  ["Go", true],
+  ["TypeScript", false],
+  ["Python", false],
+  ["Bash", false],
+  ["Terraform", false],
+  ["AWS", false],
+  ["Azure", false],
+  ["Docker", false],
+  ["Kubernetes", false],
+  ["Helm", false],
+  ["ArgoCD", false],
+  ["kubectl", false],
+  ["Grafana", false],
 ]
 
 // The road so far — told as life steps, not a feature list. Each point is a
@@ -398,6 +414,19 @@ export default function App() {
               </motion.div>
             ))}
           </div>
+
+          <motion.aside className="sleeve" {...reveal} transition={{ duration: 0.6 }}>
+            <div className="sleeve-head">
+              <span className="sleeve-tag">Toolbox</span>
+              <span className="sleeve-bar" />
+              <span className="sleeve-sub">what I build with</span>
+            </div>
+            <p className="sleeve-quote">
+              Go was my daily driver at Qonto — but I&rsquo;ve <em>never been tied to one stack</em>. I move across languages by design, and with AI in the loop
+              I ramp into whatever a problem calls for.
+            </p>
+            <ToolboxPills items={STACK} />
+          </motion.aside>
 
           <div className="method">
             <div className="method-head">

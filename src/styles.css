@@ -493,6 +493,95 @@ section {
   line-height: 1.55;
 }
 
+/* The toolbox — a record-sleeve card; tech kept separate from the expertise above */
+.sleeve {
+  position: relative;
+  margin-top: 56px;
+  padding: 28px 32px 30px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--paper-soft);
+  overflow: hidden;
+}
+/* faint vinyl grooves in the corner — the liner-notes nod */
+.sleeve::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  bottom: -70px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 6px, rgba(43, 84, 54, 0.05) 6px 7px);
+  pointer-events: none;
+}
+.sleeve-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sleeve-tag {
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.sleeve-bar {
+  height: 1px;
+  width: 64px;
+  background: var(--line);
+}
+.sleeve-sub {
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+.sleeve-quote {
+  font-family: "Fraunces", serif;
+  font-size: 1.32rem;
+  line-height: 1.42;
+  letter-spacing: -0.01em;
+  margin: 18px 0 22px;
+  max-width: 54ch;
+  color: var(--ink);
+}
+.sleeve-quote em {
+  font-style: italic;
+  color: var(--wine);
+}
+.stack-pills {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.stack-pills span {
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 11px;
+  will-change: transform;
+  transition:
+    border-color 0.3s,
+    background 0.3s,
+    color 0.3s;
+}
+.stack-pills span:hover {
+  border-color: var(--wine);
+  color: var(--wine);
+}
+.stack-pills .is-primary {
+  color: var(--paper);
+  background: var(--wine);
+  border-color: var(--wine);
+}
+
 .ethos {
   margin-top: 74px;
   border-left: 3px solid var(--wine);
