@@ -27,17 +27,11 @@ const CREDITS = [
   ],
   [
     "A2",
-    "Security Automation",
-    "Turning manual security toil into code. I treat repetitive work as a bug and build the tooling that makes the safe path the default path.",
+    "Engineering & Automation",
+    "A developer first. I turn manual security toil into code and build internal tools people actually want to use — small, sharp, made to last, and made so the safe path is the default path.",
   ],
-  ["A3", "Software & Tooling", "A developer first. I build internal tools that other people actually want to use — small, sharp, and made to last."],
-  [
-    "A4",
-    "AI Security",
-    "Guardrails for how a company builds and uses AI — governance for LLMs, AI agents and MCP integrations, plus the awareness work to bring everyone else along with it.",
-  ],
-  ["A5", "Detection & Response", "Making threats visible and incidents fast — clean signal, honest logs, and runbooks that hold up when it counts."],
-  ["A6", "Internal Security", "Hardening the everyday — workspace, devices, the human layer — so the foundation a company stands on is quietly solid."],
+  ["A3", "Detection & Response", "Making threats visible and incidents fast — clean signal, honest logs, and runbooks that hold up when it counts."],
+  ["A4", "Internal Security", "Hardening the everyday — workspace, devices, the human layer — so the foundation a company stands on is quietly solid."],
 ]
 
 const PRINCIPLES = [
