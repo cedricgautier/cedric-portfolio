@@ -331,9 +331,14 @@ export default function App() {
       <Terminal />
       <CVSheet credits={CREDITS} milestones={MILESTONES} stack={STACK} />
 
-      <a className="chip-chat" href="https://calendar.app.google/Ms5TShbKUfKJw7yt5" target="_blank" rel="noopener noreferrer">
-        Let’s chat
-      </a>
+      <div className="topchips">
+        <button className="chip-cv" onClick={() => window.print()} title="Save as PDF from the print dialog">
+          Download CV ↓
+        </button>
+        <a className="chip-chat" href="https://calendar.app.google/Ms5TShbKUfKJw7yt5" target="_blank" rel="noopener noreferrer">
+          Let’s chat
+        </a>
+      </div>
       <AnimatePresence>{showIntro && <Intro entering={entering} onSkip={skipIntro} />}</AnimatePresence>
 
       {/* HERO */}

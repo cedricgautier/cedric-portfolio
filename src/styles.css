@@ -130,11 +130,16 @@ h3 {
 }
 
 /* chips */
-.chip-chat {
+.topchips {
   position: fixed;
   top: 14px;
   right: 16px;
   z-index: 10001;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chip-chat {
   font-family: "Space Mono", monospace;
   font-size: 12px;
   letter-spacing: 0.12em;
@@ -154,6 +159,36 @@ h3 {
   background: var(--amber);
   color: var(--ink);
   transform: translateY(-2px);
+}
+/* secondary pill — sits beside Let's chat */
+.chip-cv {
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    color 0.25s,
+    transform 0.25s;
+}
+.chip-cv:hover {
+  border-color: var(--wine);
+  color: var(--wine);
+  transform: translateY(-2px);
+}
+@media (max-width: 460px) {
+  .chip-cv,
+  .chip-chat {
+    font-size: 11px;
+    padding: 7px 12px;
+    letter-spacing: 0.08em;
+  }
 }
 .chip-sound {
   position: fixed;
