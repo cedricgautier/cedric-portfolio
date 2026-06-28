@@ -13,6 +13,7 @@ import RisingBubbles from "./components/RisingBubbles.jsx"
 import ToolboxPills from "./components/ToolboxPills.jsx"
 import DiscoMode, { DISCO_EVENT } from "./components/DiscoMode.jsx"
 import Terminal from "./components/Terminal.jsx"
+import CVSheet from "./components/CVSheet.jsx"
 import { useTopArtists } from "./hooks/useTopArtists.js"
 
 const reveal = {
@@ -328,6 +329,7 @@ export default function App() {
       <motion.div className="progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" />
       <DiscoMode />
       <Terminal />
+      <CVSheet credits={CREDITS} milestones={MILESTONES} stack={STACK} />
 
       <a className="chip-chat" href="https://calendar.app.google/Ms5TShbKUfKJw7yt5" target="_blank" rel="noopener noreferrer">
         Let’s chat
@@ -594,6 +596,10 @@ export default function App() {
             <a className="cta-email" href="mailto:cedricgautier07@gmail.com">
               email me
             </a>
+            <span className="cta-or">or</span>
+            <button className="cta-cv" onClick={() => window.print()} title="Save as PDF from the print dialog">
+              download CV ↓
+            </button>
           </motion.div>
           <motion.p className="status" {...reveal} transition={{ duration: 0.7 }}>
             <span className="dot" /> Based in Paris · open to building

@@ -1358,6 +1358,21 @@ section {
   text-decoration-color: var(--amber);
   color: var(--amber);
 }
+.cta-cv {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--on-dark);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--on-dark-soft);
+  font-size: 1.02rem;
+}
+.cta-cv:hover {
+  text-decoration-color: var(--amber);
+  color: var(--amber);
+}
 .status {
   margin-top: 30px;
   font-family: "Space Mono", monospace;
@@ -2060,5 +2075,120 @@ section {
   .term-launcher {
     right: 14px;
     bottom: 14px;
+  }
+}
+
+/* ───────────────────────── print-only résumé (CVSheet.jsx) ─────────────────────────
+   Hidden on screen. In print, hide the live site and reflow the CV onto A4 —
+   same data as the page, so the downloadable résumé never drifts out of sync. */
+.cv-sheet {
+  display: none;
+}
+@media print {
+  /* show only the CV: hide every other top-level node */
+  #root > *:not(.cv-sheet) {
+    display: none !important;
+  }
+  .cv-sheet {
+    display: block !important;
+    color: #111;
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+  }
+  body {
+    background: #fff !important;
+  }
+  .grain,
+  .progress,
+  .contours,
+  .ticker {
+    display: none !important;
+  }
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  .cv-head h1 {
+    font-family: "Fraunces", serif;
+    font-size: 24pt;
+    margin: 0;
+  }
+  .cv-role {
+    margin: 2pt 0 0;
+    font-weight: 600;
+    font-size: 10.5pt;
+    color: #2b5436;
+  }
+  .cv-contact {
+    margin: 3pt 0 0;
+    font-size: 8.5pt;
+    color: #444;
+  }
+  .cv-summary {
+    margin: 9pt 0 0;
+    font-size: 9.5pt;
+    line-height: 1.45;
+  }
+
+  .cv-sheet h2 {
+    margin: 13pt 0 4pt;
+    padding-bottom: 2pt;
+    border-bottom: 1px solid #cfcfcf;
+    font-family: "Space Mono", monospace;
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #2b5436;
+  }
+
+  .cv-skills,
+  .cv-edu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .cv-skills li {
+    margin: 0 0 3pt;
+    font-size: 9pt;
+    line-height: 1.35;
+  }
+
+  .cv-job {
+    margin: 0 0 9pt;
+    page-break-inside: avoid;
+  }
+  .cv-job-head {
+    margin: 0;
+    font-size: 10pt;
+  }
+  .cv-period {
+    float: right;
+    color: #666;
+    font-family: "Space Mono", monospace;
+    font-size: 8pt;
+  }
+  .cv-blurb {
+    margin: 1pt 0 3pt;
+    font-size: 9pt;
+    font-style: italic;
+    color: #333;
+  }
+  .cv-job ul {
+    margin: 0;
+    padding-left: 14pt;
+  }
+  .cv-job li {
+    margin: 0 0 1.5pt;
+    font-size: 8.7pt;
+    line-height: 1.35;
+  }
+
+  .cv-edu li {
+    margin: 0 0 2pt;
+    font-size: 9pt;
+  }
+  .cv-tools {
+    margin: 0;
+    font-size: 9pt;
   }
 }
