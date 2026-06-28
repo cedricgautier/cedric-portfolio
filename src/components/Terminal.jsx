@@ -85,7 +85,7 @@ const unknownCommand = (name) => ({ lines: [`command not found: ${name} — try 
 
 const Terminal = () => {
   const [open, setOpen] = useState(false)
-  // Window mode, mac-style: "normal" | "min" (collapsed to the title bar) | "max".
+  // Window mode, mac-style: "normal" | "max" (fullscreen). Green toggles max.
   const [mode, setMode] = useState("normal")
   const [value, setValue] = useState("")
   const [log, setLog] = useState(WELCOME)
@@ -95,20 +95,22 @@ const Terminal = () => {
   // input still selects text normally.
   const dragControls = useDragControls()
 
-  // Backtick toggles the terminal; Escape closes it. While typing inside it,
-  // backtick is just a character — don't steal it.
+  // Backtick toggles the terminal; Escape closes it (only when open, so we don't
+  // swallow Escape page-wide). Match the physical Backquote key too, so the
+  // shortcut works on layouts (e.g. AZERTY) where backtick is a dead key. While
+  // typing inside the terminal, backtick is just a character — don't steal it.
   useEffect(() => {
     const onKey = (event) => {
       const typingHere = event.target === inputRef.current
-      const isEscape = event.key === "Escape"
-      const isToggle = event.key === TOGGLE_KEY && !typingHere
-      if (!isEscape && !isToggle) return
+      const isToggle = (event.key === TOGGLE_KEY || event.code === "Backquote") && !typingHere
+      const isEscapeWhileOpen = event.key === "Escape" && open
+      if (!isToggle && !isEscapeWhileOpen) return
       event.preventDefault()
-      setOpen((prev) => (isEscape ? false : !prev))
+      setOpen((prev) => (isEscapeWhileOpen ? false : !prev))
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
-  }, [])
+  }, [open])
 
   // Focus the input on open, and always reopen at a clean normal size.
   useEffect(() => {
@@ -124,7 +126,9 @@ const Terminal = () => {
     const input = raw.trim()
     if (!input) return
     const name = input.toLowerCase().split(/\s+/)[0]
-    const handler = COMMANDS[name]
+    // Own-property lookup only — otherwise inherited names like `__proto__`
+    // resolve to Object.prototype and crash when we try to call them.
+    const handler = Object.hasOwn(COMMANDS, name) ? COMMANDS[name] : null
     const result = handler ? handler() : unknownCommand(name)
     if (result.clear) {
       setLog([])
