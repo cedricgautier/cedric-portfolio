@@ -1844,6 +1844,7 @@ section {
    no audio, no lyrics. Reduced-motion gets a calm, non-strobing version. */
 .rpm-secret {
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
 }
 .rpm-secret:hover {
@@ -2018,6 +2019,7 @@ section {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   cursor: grab;
   touch-action: none;
+  -webkit-user-select: none;
   user-select: none;
 }
 .term-bar:active {
