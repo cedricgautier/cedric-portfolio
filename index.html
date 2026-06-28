@@ -4,16 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Security: GitHub Pages can't set HTTP headers, so the CSP rides in a meta
-         tag. Locked to exactly the origins this site uses — self for our JS/CSS,
-         api.stats.fm for live listening data, open.spotify.com for embeds, and
-         Google Fonts. script-src has no 'unsafe-inline'/'unsafe-eval', so an
-         injected inline script cannot execute. (frame-ancestors / X-Frame-Options
-         aren't honored via meta on Pages — but the site has no sensitive actions.) -->
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.stats.fm; frame-src https://open.spotify.com; form-action 'self'; upgrade-insecure-requests"
-    />
+    <!-- CSP is injected at build time only (see vite.config.js). -->
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
     <title>Cédric Gautier — Security Engineer, AI-first Builder & Music Curator (Paris)</title>
