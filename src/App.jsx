@@ -11,6 +11,8 @@ import Timeline from "./components/Timeline.jsx"
 import Passions from "./components/Passions.jsx"
 import RisingBubbles from "./components/RisingBubbles.jsx"
 import ToolboxPills from "./components/ToolboxPills.jsx"
+import DiscoMode, { DISCO_EVENT } from "./components/DiscoMode.jsx"
+import Terminal from "./components/Terminal.jsx"
 import { useTopArtists } from "./hooks/useTopArtists.js"
 
 const reveal = {
@@ -30,8 +32,18 @@ const CREDITS = [
     "Engineering & Automation",
     "A developer first. I turn manual security toil into code and build internal tools people actually want to use — small, sharp, made to last, and made so the safe path is the default path.",
   ],
-  ["A3", "Detection & Response", "Making threats visible and incidents fast — clean signal, honest logs, and runbooks that hold up when it counts."],
-  ["A4", "Internal Security", "Hardening the everyday — workspace, devices, the human layer — so the foundation a company stands on is quietly solid."],
+  [
+    "A3",
+    "Platform, Pipeline & Cloud",
+    "DevSecOps in practice — security built into delivery, not bolted on. I harden CI/CD pipelines and the supply chain behind them, shape release gates that let safe code ship fast, and design and run deployments across AWS and Azure with infrastructure as code and GitOps.",
+  ],
+  [
+    "A4",
+    "AI Security",
+    "Guardrails for how a company builds and uses AI — governance for LLMs, AI agents and MCP integrations, plus the awareness work to bring everyone else along with it.",
+  ],
+  ["A5", "Detection & Response", "Making threats visible and incidents fast — clean signal, honest logs, and runbooks that hold up when it counts."],
+  ["A6", "Internal Security", "Hardening the everyday — workspace, devices, the human layer — so the foundation a company stands on is quietly solid."],
 ]
 
 const PRINCIPLES = [
@@ -132,6 +144,8 @@ const MILESTONES = [
         group: "Platform security",
         items: [
           "Secured CI/CD across our source-control platforms with policy checks, branch protection and safer release gates",
+          "Drove company-wide commit signing — migrating every developer to signed commits as a verified default",
+          "Hardened the GitHub Actions supply chain — pinning and allow-listing actions to block unvetted, unspecified versions",
           "Built an internal tool tracking the lifecycle of every application security certificate",
           "Hardened observability hygiene — detecting and remediating sensitive fields in logs",
           "Migrated internal security-app alerting to a centralized error-tracking platform for faster, more consistent response",
@@ -234,7 +248,16 @@ const REST = [
   ],
 ]
 
-const TICKER = ["Build things that last", "Plan first", "Problem-oriented", "Security by design", "Stay grounded", "Curate the sound", "Keep learning"]
+const TICKER = [
+  "Make the secure path the default",
+  "Build things that last",
+  "Plan first",
+  "Problem-oriented",
+  "Security by design",
+  "Stay grounded",
+  "Curate the sound",
+  "Keep learning",
+]
 
 // Spotify (no backend — live listening data comes from stats.fm).
 // SPOTIFY_PROFILE: the full profile URL (open.spotify.com/user/<id>).
@@ -303,6 +326,8 @@ export default function App() {
     <>
       <div className="grain" />
       <motion.div className="progress" style={{ scaleX: scrollYProgress }} aria-hidden="true" />
+      <DiscoMode />
+      <Terminal />
 
       <a className="chip-chat" href="https://calendar.app.google/Ms5TShbKUfKJw7yt5" target="_blank" rel="noopener noreferrer">
         Let’s chat
@@ -324,11 +349,13 @@ export default function App() {
           <div className="hero-meta">
             <span>Cat. № CG—07</span>
             <span>Paris · {clock}</span>
-            <span>33⅓ rpm</span>
+            <span className="rpm-secret" onClick={() => window.dispatchEvent(new Event(DISCO_EVENT))} title="▲▲▼▼◄►◄► b a">
+              33⅓ rpm
+            </span>
           </div>
           <div className="hero-grid">
             <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 70, damping: 14, delay: 0.15 }}>
-              <p className="eyebrow">Security Engineer · AI-first Builder · Curator</p>
+              <p className="eyebrow">Security Engineer · DevSecOps · AI-first Builder · Curator</p>
               <h1 className="name">
                 Cédric
                 <br />
@@ -394,7 +421,11 @@ export default function App() {
             <span className="bar" />
           </motion.div>
           <motion.p className="lead" {...reveal} transition={{ duration: 0.7 }}>
-            What I know how to do, and <em>do</em> well.
+            I don’t break security — I <em>build</em> it.
+          </motion.p>
+          <motion.p className="craft-note" {...reveal} transition={{ duration: 0.7 }}>
+            <span className="y">Yellow team</span>, by the security color wheel — the builder’s side of the craft. The green isn’t just for the mountains:{" "}
+            <b>yellow + blue</b> (build + defend) is the wheel’s green — <b>DevSecOps</b>. The secure path, made the default path.
           </motion.p>
 
           <div className="credits">
