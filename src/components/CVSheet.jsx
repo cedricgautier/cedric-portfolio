@@ -12,7 +12,11 @@ const flattenBullets = (milestone) => {
 
 const CVSheet = ({ credits, milestones, stack }) => {
   const jobsNewestFirst = milestones.slice().reverse()
+  // Higher education first, with the baccalauréat (the foundational diploma) last.
   const education = jobsNewestFirst.flatMap((milestone) => milestone.education ?? [])
+  const higherEducation = education.filter((entry) => !entry.degree.startsWith("Bac"))
+  const baccalaureate = education.filter((entry) => entry.degree.startsWith("Bac"))
+  const orderedEducation = [...higherEducation, ...baccalaureate]
   const tools = stack.map(([name]) => name).join(" · ")
 
   return (
@@ -55,7 +59,7 @@ const CVSheet = ({ credits, milestones, stack }) => {
 
       <h2>Education</h2>
       <ul className="cv-edu">
-        {education.map((entry, index) => (
+        {orderedEducation.map((entry, index) => (
           <li key={index}>
             <b>{entry.degree}</b> — {entry.school}
             <span className="cv-period">{entry.years}</span>

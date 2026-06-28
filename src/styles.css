@@ -2129,7 +2129,16 @@ section {
     color: #111;
     font-family: "Hanken Grotesk", system-ui, sans-serif;
   }
-  body {
+  /* neutralize the live layout so the CV starts at the very top — no inherited
+     min-heights, padding or margins leaving a big gap on the first page */
+  html,
+  body,
+  #root,
+  .cv-sheet {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
     background: #fff !important;
   }
   .grain,
@@ -2188,13 +2197,16 @@ section {
     line-height: 1.35;
   }
 
+  /* let a long job flow across pages (avoids a half-empty first page); just keep
+     the job heading from being stranded at the bottom of a page */
   .cv-job {
     margin: 0 0 9pt;
-    page-break-inside: avoid;
   }
   .cv-job-head {
     margin: 0;
     font-size: 10pt;
+    break-inside: avoid;
+    break-after: avoid;
   }
   .cv-period {
     float: right;
