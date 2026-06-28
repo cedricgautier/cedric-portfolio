@@ -147,7 +147,7 @@ const MILESTONES = [
           "Secured CI/CD across our source-control platforms with policy checks, branch protection and safer release gates",
           "Drove company-wide commit signing — migrating every developer to signed commits as a verified default",
           "Hardened the GitHub Actions supply chain — pinning and allow-listing actions to block unvetted, unspecified versions",
-          "Built an internal tool tracking the lifecycle of every application security certificate",
+          "Built an internal tool that inventories the company's SSL/TLS certificates and alerts ahead of expiry — a polished dashboard giving full visibility so a certificate never lapses unnoticed",
           "Hardened observability hygiene — detecting and remediating sensitive fields in logs",
           "Migrated internal security-app alerting to a centralized error-tracking platform for faster, more consistent response",
           "Added a config-validation test suite to the SDLC for safer log-pipeline deployments",
