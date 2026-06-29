@@ -130,11 +130,16 @@ h3 {
 }
 
 /* chips */
-.chip-chat {
+.topchips {
   position: fixed;
   top: 14px;
   right: 16px;
   z-index: 10001;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chip-chat {
   font-family: "Space Mono", monospace;
   font-size: 12px;
   letter-spacing: 0.12em;
@@ -154,6 +159,36 @@ h3 {
   background: var(--amber);
   color: var(--ink);
   transform: translateY(-2px);
+}
+/* secondary pill — sits beside Let's chat */
+.chip-cv {
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    color 0.25s,
+    transform 0.25s;
+}
+.chip-cv:hover {
+  border-color: var(--wine);
+  color: var(--wine);
+  transform: translateY(-2px);
+}
+@media (max-width: 460px) {
+  .chip-cv,
+  .chip-chat {
+    font-size: 11px;
+    padding: 7px 12px;
+    letter-spacing: 0.08em;
+  }
 }
 .chip-sound {
   position: fixed;
@@ -375,6 +410,21 @@ section {
 .lead em {
   font-style: italic;
   color: var(--wine);
+}
+.craft-note {
+  margin: 16px 0 0;
+  max-width: 56ch;
+  font-size: clamp(0.95rem, 2vw, 1.08rem);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.craft-note b {
+  color: var(--wine);
+  font-weight: 600;
+}
+.craft-note .y {
+  color: var(--amber);
+  font-weight: 600;
 }
 
 .thesis {
@@ -1343,6 +1393,21 @@ section {
   text-decoration-color: var(--amber);
   color: var(--amber);
 }
+.cta-cv {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--on-dark);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--on-dark-soft);
+  font-size: 1.02rem;
+}
+.cta-cv:hover {
+  text-decoration-color: var(--amber);
+  color: var(--amber);
+}
 .status {
   margin-top: 30px;
   font-family: "Space Mono", monospace;
@@ -1771,5 +1836,408 @@ section {
 @media (prefers-reduced-motion: reduce) {
   .lp-eq i {
     animation: none;
+  }
+}
+
+/* ───────────────────────── disco mode (easter egg) ─────────────────────────
+   Konami code (▲▲▼▼◄►◄► b a) or a tap on the hero's "33⅓ rpm". Purely visual —
+   no audio, no lyrics. Reduced-motion gets a calm, non-strobing version. */
+.rpm-secret {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.rpm-secret:hover {
+  color: var(--wine);
+}
+.disco {
+  position: fixed;
+  inset: 0;
+  z-index: 13000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  cursor: pointer;
+  background: radial-gradient(circle at 50% 40%, rgba(20, 30, 24, 0.5), rgba(8, 12, 10, 0.85));
+}
+.disco-beams,
+.disco-lights {
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+.disco-beams {
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(255, 62, 165, 0.4) 10deg,
+    transparent 24deg,
+    transparent 48deg,
+    rgba(43, 212, 255, 0.4) 58deg,
+    transparent 72deg,
+    transparent 96deg,
+    rgba(255, 210, 62, 0.4) 106deg,
+    transparent 120deg,
+    transparent 156deg,
+    rgba(92, 255, 143, 0.42) 166deg,
+    transparent 180deg,
+    transparent 216deg,
+    rgba(181, 107, 255, 0.4) 226deg,
+    transparent 240deg,
+    transparent 360deg
+  );
+  transform-origin: center;
+  animation: discoSpin 7s linear infinite;
+}
+.disco-lights {
+  background:
+    radial-gradient(40% 40% at 28% 30%, #ff3ea5, transparent 70%), radial-gradient(44% 44% at 72% 32%, #2bd4ff, transparent 70%),
+    radial-gradient(46% 46% at 38% 74%, #5cff8f, transparent 70%), radial-gradient(40% 40% at 76% 72%, #ffd23e, transparent 70%);
+  filter: blur(34px);
+  animation: discoPulse 2.4s ease-in-out infinite alternate;
+}
+.disco-ball {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(64px, 16vw, 132px);
+  filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.55));
+  animation: discoBob 1.7s ease-in-out infinite alternate;
+}
+.disco-text {
+  position: relative;
+  z-index: 2;
+  margin: 8px 0 0;
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+  font-size: clamp(2.4rem, 9vw, 5rem);
+  letter-spacing: -0.02em;
+  text-align: center;
+  background: linear-gradient(90deg, #ff3ea5, #ffd23e, #5cff8f, #2bd4ff, #b56bff, #ff3ea5);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: discoHue 2s linear infinite;
+}
+.disco-sub {
+  position: relative;
+  z-index: 2;
+  margin: 10px 0 0;
+  font-family: "Space Mono", monospace;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+@keyframes discoSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes discoPulse {
+  from {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.7;
+  }
+  to {
+    transform: scale(1.16) rotate(8deg);
+    opacity: 1;
+  }
+}
+@keyframes discoBob {
+  from {
+    transform: translateY(-9px) rotate(-6deg);
+  }
+  to {
+    transform: translateY(9px) rotate(6deg);
+  }
+}
+@keyframes discoHue {
+  to {
+    background-position: 200% center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .disco-beams,
+  .disco-lights,
+  .disco-ball,
+  .disco-text {
+    animation: none;
+  }
+  .disco-text {
+    background: none;
+    -webkit-text-fill-color: #fff;
+    color: #fff;
+  }
+}
+
+/* ───────────────────────── security terminal ─────────────────────────
+   A hidden shell. Backtick (`) or the corner chip opens it. */
+.term-launcher {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 11000;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: var(--ink-bg);
+  color: var(--amber);
+  font-family: "Space Mono", monospace;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+.term-launcher:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
+.term {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 11600;
+  width: min(540px, calc(100vw - 36px));
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0c1410;
+  border: 1px solid rgba(92, 255, 143, 0.22);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  font-family: "Space Mono", monospace;
+}
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: #0a110d;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.term-bar:active {
+  cursor: grabbing;
+}
+.term-dots {
+  display: inline-flex;
+  gap: 8px;
+}
+.term-dot {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 0;
+  opacity: 0.9;
+  transition: opacity 0.15s ease;
+}
+.term-dot:hover {
+  opacity: 1;
+}
+.term-dot.red {
+  background: #ff5f56;
+}
+.term-dot.yellow {
+  background: #ffbd2e;
+}
+.term-dot.green {
+  background: #27c93f;
+}
+.term-title {
+  flex: 1;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.5);
+}
+.term-body {
+  max-height: min(52vh, 420px);
+  overflow-y: auto;
+  padding: 14px 14px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #b6f0c4;
+  cursor: text;
+}
+.term-line {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.term-input-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 4px;
+}
+.term-prompt {
+  color: var(--amber);
+  white-space: nowrap;
+}
+.term-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: none;
+  color: #eafff0;
+  font-family: inherit;
+  font-size: 13px;
+  caret-color: #5cff8f;
+}
+/* green → fullscreen: fill the whole screen. transform:none pins it full-bleed even
+   if the window was dragged first; restoring drops it back to where it was. */
+.term-max {
+  inset: 0;
+  width: auto;
+  height: auto;
+  max-width: none;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  transform: none !important;
+}
+.term-max .term-body {
+  flex: 1;
+  max-height: none;
+}
+@media (max-width: 560px) {
+  .term-launcher {
+    right: 14px;
+    bottom: 14px;
+  }
+}
+
+/* ───────────────────────── print-only résumé (CVSheet.jsx) ─────────────────────────
+   Hidden on screen. In print, hide the live site and reflow the CV onto A4 —
+   same data as the page, so the downloadable résumé never drifts out of sync. */
+.cv-sheet {
+  display: none;
+}
+@media print {
+  /* show only the CV: hide every other top-level node */
+  #root > *:not(.cv-sheet) {
+    display: none !important;
+  }
+  .cv-sheet {
+    display: block !important;
+    color: #111;
+    font-family: "Hanken Grotesk", system-ui, sans-serif;
+  }
+  /* neutralize the live layout so the CV starts at the very top — no inherited
+     min-heights, padding or margins leaving a big gap on the first page */
+  html,
+  body,
+  #root,
+  .cv-sheet {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    background: #fff !important;
+  }
+  .grain,
+  .progress,
+  .contours,
+  .ticker {
+    display: none !important;
+  }
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  .cv-head h1 {
+    font-family: "Fraunces", serif;
+    font-size: 24pt;
+    margin: 0;
+  }
+  .cv-role {
+    margin: 2pt 0 0;
+    font-weight: 600;
+    font-size: 10.5pt;
+    color: #2b5436;
+  }
+  .cv-contact {
+    margin: 3pt 0 0;
+    font-size: 8.5pt;
+    color: #444;
+  }
+  .cv-summary {
+    margin: 9pt 0 0;
+    font-size: 9.5pt;
+    line-height: 1.45;
+  }
+
+  .cv-sheet h2 {
+    margin: 13pt 0 4pt;
+    padding-bottom: 2pt;
+    border-bottom: 1px solid #cfcfcf;
+    font-family: "Space Mono", monospace;
+    font-size: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #2b5436;
+  }
+
+  .cv-skills,
+  .cv-edu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .cv-skills li {
+    margin: 0 0 3pt;
+    font-size: 9pt;
+    line-height: 1.35;
+  }
+
+  /* let a long job flow across pages (avoids a half-empty first page); just keep
+     the job heading from being stranded at the bottom of a page */
+  .cv-job {
+    margin: 0 0 9pt;
+  }
+  .cv-job-head {
+    margin: 0;
+    font-size: 10pt;
+    break-inside: avoid;
+    break-after: avoid;
+  }
+  .cv-period {
+    float: right;
+    color: #666;
+    font-family: "Space Mono", monospace;
+    font-size: 8pt;
+  }
+  .cv-blurb {
+    margin: 1pt 0 3pt;
+    font-size: 9pt;
+    font-style: italic;
+    color: #333;
+  }
+  .cv-job ul {
+    margin: 0;
+    padding-left: 14pt;
+  }
+  .cv-job li {
+    margin: 0 0 1.5pt;
+    font-size: 8.7pt;
+    line-height: 1.35;
+  }
+
+  .cv-edu li {
+    margin: 0 0 2pt;
+    font-size: 9pt;
+  }
+  .cv-tools {
+    margin: 0;
+    font-size: 9pt;
   }
 }
