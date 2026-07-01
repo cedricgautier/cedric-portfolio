@@ -205,6 +205,12 @@ const MILESTONES = [
         ],
       },
       {
+        group: "AI security",
+        items: [
+          "Red-teamed our AI and MCP integrations — adversarial testing across several frameworks, including indirect prompt-injection, to make sure the guardrails hold under pressure",
+        ],
+      },
+      {
         group: "Workplace & fleet",
         items: [
           "Standardized the laptop fleet — a baseline configuration shipped and enforced through MDM",
