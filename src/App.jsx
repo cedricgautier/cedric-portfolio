@@ -198,6 +198,13 @@ const MILESTONES = [
         ],
       },
       {
+        group: "Cloud & infrastructure as code",
+        items: [
+          "Engineered the infrastructure-as-code behind our security automation — running it as scheduled serverless workloads on AWS, provisioned entirely through reusable Terraform modules and code review",
+          "Architected the delivery path for zero standing secrets — keyless, OIDC-federated CI with no long-lived cloud credentials, secrets injected at runtime so nothing sensitive ever touches state, and per-function least-privilege with account-level data isolation",
+        ],
+      },
+      {
         group: "Workplace & fleet",
         items: [
           "Standardized the laptop fleet — a baseline configuration shipped and enforced through MDM",
@@ -207,7 +214,7 @@ const MILESTONES = [
         ],
       },
     ],
-    tags: ["TypeScript", "Python", "Terraform", "Google Workspace", "MDM/EDR"],
+    tags: ["Terraform", "AWS", "TypeScript", "Python", "Google Workspace", "MDM/EDR"],
     education: [{ school: "Sup de Vinci", degree: "MSc · final year, graduating", years: "→ Oct 2026" }],
     // Real, from stats.fm — `soundtrack` = last ~6 months, `constants` = all-time.
     soundtrack: ["Fred again..", "Chance Peña", "Harry Styles", "nimino", "ODESZA"],
